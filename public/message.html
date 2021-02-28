@@ -68,7 +68,9 @@
     </select>
   </div>
   <div id="rest-of-page">
+
     <div class="message-form shadow-sm p-3 mb-5 bg-body rounded">
+      <div id="balance"></div>
       <form action="/api/sms/send" id='message-data' method='POST'>
         <label for='recipients' class="form-label">Παραλήπτες</label>
         <textarea id='recipients' rows='4' cols='50' name='recipients' type="text" class="form-control"
@@ -76,14 +78,33 @@
 
         <label for='text' class="form-label">Κείμενο</label>
         <textarea id='text' rows='4' cols='50' name='text' type="text" class="form-control"
-          placeholder='Εισάγετε το κείμενο για αποστολή' required></textarea>
-
+          placeholder='Εισάγετε το κείμενο για αποστολή' maxlength='160' oninput='updateChars()' required></textarea>
+        <p>Διαθέσιμος αριθμός χαρακτήρων: <span id='charsLeft'>160</span></p>
         <input type="submit" class="btn btn-primary" value='Αποστολή' onclick="validateForm()">
       </form>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+  </script>
+  <script>
+    getBalance = async () => {
+      const res = await fetch('./api/sms/balance')
+      const data = await res.json()
+      console.log(data)
+      let balance_cont = document.getElementById('balance')
+      balance_cont.innerHTML = `Διαθέσιμο υπόλοιπο: ${data.balance} SMS`
+    }
+    getBalance()
+  </script>
+  <script>
+    updateChars = () => {
+      let textSMS = document.getElementById('text')
+      let charsLeft = document.getElementById('charsLeft')
+      let chars = 160 - textSMS.value.length
+      console.log(textSMS.length)
+      charsLeft.innerHTML = chars
+    }
   </script>
 </body>
 
