@@ -10,6 +10,7 @@ const { getAllOffers } = require('./routes/offers/getAll.js');
 const { getEditPage } = require('./routes/offers/getEdit.js');
 const { applyEdit } = require('./routes/offers/applyEdit.js');
 const { sendSms } = require('./routes/sms/sendSms.js');
+const { getBalance } = require('./routes/sms/getBalance.js')
 
 // const { dirname } = require('path');
 
@@ -30,6 +31,7 @@ app.use(express.urlencoded({
 
 app.post('/api/offers/add', addOffer)
 app.post('/api/sms/send', sendSms)
+app.get('/api/sms/balance', getBalance)
 app.get('/api/offers/setcompleted',setCompleted)
 app.get('/api/offers', getAllOffers)
 app.get('/offers/edit', getEditPage)
