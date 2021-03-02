@@ -336,37 +336,49 @@ return text
         }
       }
       document.getElementById('pagination').innerHTML= generatePagination(data.page, data.pageCount)
-
-      if(offersResult.filter(offer => offer.type == 'time').length > 0){
-        let container = document.getElementById('timeline');
-      // Create a DataSet (allows two way data-binding)
-      let items = new vis.DataSet(date_offers);
-      // Configuration for the Timeline
-      let today = new Date();
-      const dd = String(today.getDate()).padStart(2, '0');
-      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      const yyyy = today.getFullYear();
-      today = yyyy + '-' + mm + '-' + dd;
-
-      let options = {
-        width: '85%',
-        timeAxis: { scale: 'day', step: 3 },
-        height: '250px',
-        start: today
-      };
-      
-      // Create a Timeline
-      let timeline = new vis.Timeline(container, items, options);
-      function getRandomColor() {
-        color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
-        return color;
-      }
-      for(el of document.getElementsByClassName("vis-item-overflow")){
-        el.style.backgroundColor = getRandomColor()
-      }
-      }
     }
 
+  </script>
+  <script>
+    createTimeline = async () => {
+      const filter = document.getElementById('filter-form').value;
+      const search_term = document.getElementById('search-bar').value
+
+      let fetch_url = `/api/offers/timeline?filter=${filter}`
+
+      const res = await fetch(fetch_url)
+      const data = await res.json();
+      let offersResult = data.result
+      console.log(offersResult)
+      if(offersResult.filter(offer => offer.type == 'time').length > 0){
+        let container = document.getElementById('timeline');
+        // Create a DataSet (allows two way data-binding)
+        let items = new vis.DataSet(date_offers);
+        // Configuration for the Timeline
+        let today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        let options = {
+          width: '85%',
+          timeAxis: { scale: 'day', step: 3 },
+          height: '250px',
+          start: today
+        };
+        
+        // Create a Timeline
+        let timeline = new vis.Timeline(container, items, options);
+        function getRandomColor() {
+          color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+          return color;
+        }
+        for(el of document.getElementsByClassName("vis-item-overflow")){
+          el.style.backgroundColor = getRandomColor()
+        }
+      }
+    }
   </script>
 <script type="text/javascript" src="//unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
 <link href="//unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
@@ -443,6 +455,7 @@ return text
   <div id="pagination"></div>
   <script>
     getOffers()
+    createTimeline()
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">

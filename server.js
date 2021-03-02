@@ -7,6 +7,7 @@ const {signin , requireSignin} = require('./routes/auth/auth.js');
 const { addOffer } = require('./routes/offers/add.js');
 const { setCompleted } = require('./routes/offers/setCompleted.js');
 const { getAllOffers } = require('./routes/offers/getAll.js');
+const { getTimeOffers } = require('./routes/offers/getTimeOffers.js')
 const { getEditPage } = require('./routes/offers/getEdit.js');
 const { applyEdit } = require('./routes/offers/applyEdit.js');
 const { sendSms } = require('./routes/sms/sendSms.js');
@@ -34,6 +35,7 @@ app.post('/api/sms/send', sendSms)
 app.get('/api/sms/balance', getBalance)
 app.get('/api/offers/setcompleted',setCompleted)
 app.get('/api/offers', getAllOffers)
+app.get('/api/offers/timeline', getTimeOffers)
 app.get('/offers/edit', getEditPage)
 app.post('/api/offers/edit',applyEdit)
 app.post('/api/login', signin)
