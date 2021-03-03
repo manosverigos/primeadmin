@@ -352,6 +352,15 @@ return text
       console.log(offersResult)
       if(offersResult.filter(offer => offer.type == 'time').length > 0){
         let container = document.getElementById('timeline');
+        let date_offers = []
+
+        for(offer of offersResult) {
+          date_offers.push({
+            content: offer.title,
+            start: offer.startDate,
+            end: offer.endDate
+          })
+        }
         // Create a DataSet (allows two way data-binding)
         let items = new vis.DataSet(date_offers);
         // Configuration for the Timeline
