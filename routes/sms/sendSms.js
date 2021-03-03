@@ -12,6 +12,7 @@ exports.sendSms = async (req, res) => {
   let parameters = {
     'key' : process.env.EASY_API_KEY,
     'text' : text,
+    'from': 'Prime',
     'type' : 'json'
   }
 
